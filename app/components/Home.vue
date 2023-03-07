@@ -1,31 +1,39 @@
 <template>
     <Page>
         <ActionBar>
-            <Label text="Api Pokemon" />
+            <Label text="Jikan Anime" />
         </ActionBar>
 
         <FlexboxLayout flexDirection="column" backgroundColor="#3c495e" height="100%">
-            <SearchBar alignSelf="center" width="90%" hint="Search hint" :text="searchPhrase" 
-                        textFieldBackgroundColor="white" textFieldHintColor="white"
-                        @textChange="onTextChanged" @submit="onSubmit" height="40" 
-                        class="search"/>
-            <!-- <ActivityIndicator busy="true" @busyChange="onBusyChanged" /> -->
-            <ScrollView height="90%">
+            <SearchBar alignSelf="center" width="90%" hint="Search hint" :text="searchPhrase"
+                textFieldBackgroundColor="white" textFieldHintColor="white" @textChange="onTextChanged" @submit="onSubmit"
+                height="40" class="search" />
+
+            <ScrollView height="95%">
                 <FlexboxLayout alignSelf="center" flexWrap="wrap">
-                    <FlexboxLayout flexDirection="column" v-for="(item, index) in pokemons" :key="index" height="auto">
+                    <FlexboxLayout flexDirection="column" v-for="(item, index) in animes" :key="index" height="auto">
                         <card-view class="position" ripple="true" elevation="20" margin="4" radius=20 height="230"
-                            width="31%">
+                            width="31%" @tap="watchEpisodes(item.mal_id)">
                             <stack-layout orientation="horizontal" style="background-color: #1c6b48;" height="auto">
                                 <Image backgroundColor="blue"
-                                    src="https://www.pokemon.com/static-assets/app/static3/img/og-default-image.jpeg "
+                                    :src="item.images.jpg.image_url"
                                     stretch="fill" />
                             </stack-layout>
                         </card-view>
-                        <Label :text="item.name" width="31%" height="40" class="cardtitle" fontSize="18"></Label>
+                        <Label :text="item.title" width="31%" height="40" class="cardtitle" fontSize="18"></Label>
                     </FlexboxLayout>
                 </FlexboxLayout>
             </ScrollView>
         </FlexboxLayout>
+
+        <!-- <Pager for="item in items">
+            <v-template>
+                <GridLayout class="pager-item" rows="auto, *" columns="*">
+                    <Label :text="item.title" />
+                    <Image stretch="fill" row="1" :src="item.image" />
+                </GridLayout>
+            </v-template>
+        </Pager> -->
     </Page>
 </template>
 
@@ -33,14 +41,15 @@
 import { mapState } from 'vuex';
 import { mapMutations } from 'vuex';
 import axios from 'axios';
+import Episodes from './Episodes.vue';
 
 export default {
     data() {
         return {
             activate: false,
-            pokemons: [],
+            animes: [],
             searchPhrase: '',
-            pokemons_copy: []
+            animes_copy: []
         }
     },
     computed: {
@@ -53,11 +62,14 @@ export default {
     methods: {
         ...mapMutations(['increment']),
 
-        async getPokemons() {
-            const pokemons = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0');
-            console.log(pokemons)
-            this.pokemons = pokemons.data.results
-            this.pokemons_copy = pokemons.data.results
+        watchEpisodes(id){
+            this.$navigateTo(Episodes, {props:{anime_id:id}})
+        },
+
+        async getAnimes() {
+            const animes = await axios.get('https://api.jikan.moe/v4/anime');
+            console.log(animes)
+            this.animes = animes.data.data
         },
 
         onTextChanged() {
@@ -78,7 +90,7 @@ export default {
     },
 
     created() {
-        this.getPokemons()
+        this.getAnimes()
     },
 };
 </script>
@@ -98,7 +110,7 @@ export default {
 .cardtitle {
     text-align: center;
     font-weight: bold;
-    color: #000;
+    color: #fff;
 }
 
 /* ion-searchbar {
@@ -107,7 +119,7 @@ export default {
   }
 } */
 
-.search{
+.search {
     margin-top: 5px;
     border-top-right-radius: 30;
 }
