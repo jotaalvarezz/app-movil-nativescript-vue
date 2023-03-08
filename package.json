@@ -9,7 +9,9 @@
     "@nativescript/theme": "~3.0.2",
     "@nstudio/nativescript-cardview": "^2.0.2",
     "axios": "^0.27.2",
+    "nativescript-fonticon": "^2.0.2",
     "nativescript-vue": "~2.9.2",
+    "nativescript-vue-fonticon": "^1.0.3",
     "vuex": "^3.6.2"
   },
   "devDependencies": {

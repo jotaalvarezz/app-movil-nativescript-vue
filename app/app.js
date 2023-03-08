@@ -12,6 +12,15 @@ Vue.registerElement(
   () => require('@nstudio/nativescript-cardview').CardView
 );
 
+import {TNSFontIcon, fonticon} from 'nativescript-fonticon';
+
+TNSFontIcon.debug = true;
+TNSFontIcon.paths = {
+  'fa': './assets/fontawesome.css',
+};
+TNSFontIcon.loadCss();
+
+Vue.filter('fonticon', fonticon);
 
 new Vue({
   render: (h) => h('frame', [h(Home)]),

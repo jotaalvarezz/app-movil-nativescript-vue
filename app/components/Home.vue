@@ -42,6 +42,7 @@ import { mapState } from 'vuex';
 import { mapMutations } from 'vuex';
 import axios from 'axios';
 import Episodes from './Episodes.vue';
+import AnimeInfo from './AnimeInfo.vue';
 
 export default {
     data() {
@@ -60,16 +61,17 @@ export default {
     },
 
     methods: {
-        ...mapMutations(['increment']),
+        ...mapMutations(['save_anime']),
 
         watchEpisodes(id){
-            this.$navigateTo(Episodes, {props:{anime_id:id}})
+            this.$navigateTo(AnimeInfo, {props:{anime_id:id}})
         },
 
         async getAnimes() {
             const animes = await axios.get('https://api.jikan.moe/v4/anime');
             console.log(animes)
             this.animes = animes.data.data
+            this.save_anime(this.animes)
         },
 
         onTextChanged() {
@@ -86,11 +88,21 @@ export default {
             } else {
                 this.activate = false
             }
-        }
+        },
+
+        async getEpisodes() {
+            console.log("props => ", this.anime_id)
+            const episodes = await axios.get(`https://api.jikan.moe/v4/anime/1/videos`)
+            this.episodes = episodes.data.data
+            console.log(episodes)
+        },
     },
 
     created() {
-        this.getAnimes()
+        /* this.getEpisodes() */
+        if(this.animes.length == 0){
+            this.getAnimes() 
+        }
     },
 };
 </script>
