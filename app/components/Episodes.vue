@@ -1,7 +1,7 @@
 <template>
     <page>
-        <ActionBar>
-            <Label text="Jikan Anime" />
+        <ActionBar backgroundColor="#3c495e">
+            <Label text="Jikan Anime" class="cardtitle" fontSize="18" />
         </ActionBar>
 
         <ListView for="item in episodes.episodes" @itemTap="onItemTap">
@@ -55,3 +55,10 @@ export default {
     },
 }
 </script>
+<style>
+    .cardtitle {
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+}
+</style>

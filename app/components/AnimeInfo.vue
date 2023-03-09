@@ -1,11 +1,11 @@
 <template>
     <page>
-        <ActionBar>
-            <Label text="Jikan Anime" />
+        <ActionBar backgroundColor="#3c495e">
+            <Label text="Jikan Anime" class="cardtitle" fontSize="18" />
         </ActionBar>
         <ScrollView height="100%">
             <card-view class="position" ripple="true" elevation="20" margin="4" radius=20 height="auto" width="95%">
-                <FlexboxLayout flexDirection="column" backgroundColor="#3c495e" paddingBottom="20" height="50%">
+                <FlexboxLayout flexDirection="column" paddingBottom="20" height="50%">
                     <card-view alignSelf="center" elevation="20" margin="20" radius=0 height="50%" width="90%">
                         <Image backgroundColor="blue" :src="info.images.jpg.image_url" stretch="fill" />
                     </card-view>
@@ -20,7 +20,7 @@
                             col="1"></Label>
                     </GridLayout>
                     <FlexboxLayout flexDirection="column" height="auto" marginTop="40">
-                        <Button style="font-weight: bold;" :text="'fa-list-alt' | fonticon" class="far" height="auto"
+                        <Button style="font-weight: bold; height:200px; color: aliceblue;" backgroundColor="#3c495e" :text="'fa-list-alt' | fonticon" class="far" height="auto"
                             fontSize="35" alignSelf="center" @tap="getEpisodes()">
                             <!-- <Label backgroundColor="green" style="font-weight: bold;" :text="'fa-list-alt' | fonticon" class="far"
                             height="auto" fontSize="25" alignSelf="center"></Label> -->
@@ -73,6 +73,6 @@ export default {
 .cardtitle {
     text-align: center;
     font-weight: bold;
-    color: #0c0c0c;
+    color: #fff;
 }
 </style>

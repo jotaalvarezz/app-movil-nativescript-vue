@@ -1,28 +1,38 @@
-import Vue from 'nativescript-vue'
+import Vue from "nativescript-vue";
 
-import Home from './components/Home'
+import Home from "./components/Home";
 
-import store from './store/index'
-import Pager from '@nativescript-community/ui-pager/vue';
+import store from "./store/index";
+import Pager from "@nativescript-community/ui-pager/vue";
 
 Vue.use(Pager);
 
 Vue.registerElement(
-  'CardView',
-  () => require('@nstudio/nativescript-cardview').CardView
+  "CardView",
+  () => require("@nstudio/nativescript-cardview").CardView
 );
 
-import {TNSFontIcon, fonticon} from 'nativescript-fonticon';
+Vue.registerElement(
+  "Carousel",
+  () => require("@nstudio/nativescript-carousel").Carousel
+);
+
+Vue.registerElement(
+  "CarouselItem",
+  () => require("@nstudio/nativescript-carousel").CarouselItem
+);
+
+import { TNSFontIcon, fonticon } from "nativescript-fonticon";
 
 TNSFontIcon.debug = true;
 TNSFontIcon.paths = {
-  'fa': './assets/fontawesome.css',
+  fa: "./assets/fontawesome.css",
 };
 TNSFontIcon.loadCss();
 
-Vue.filter('fonticon', fonticon);
+Vue.filter("fonticon", fonticon);
 
 new Vue({
-  render: (h) => h('frame', [h(Home)]),
+  render: (h) => h("frame", [h(Home)]),
   store,
-}).$start()
+}).$start();

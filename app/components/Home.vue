@@ -1,26 +1,41 @@
 <template>
     <Page>
-        <ActionBar>
-            <Label text="Jikan Anime" />
+        <ActionBar backgroundColor="#3c495e">
+            <Label text="Jikan Anime" class="cardtitle" fontSize="18" />
+            <ActionItem android.systemIcon="ic_menu_search" ios.position="right" text="delete" @tap="modalSearch" />
         </ActionBar>
 
-        <FlexboxLayout flexDirection="column" backgroundColor="#3c495e" height="100%">
-            <SearchBar alignSelf="center" width="90%" hint="Search hint" :text="searchPhrase"
+        <FlexboxLayout flexDirection="column" backgroundColor="#3c495e" height="auto">
+            <!-- <SearchBar alignSelf="center" width="90%" hint="Search hint" :text="searchPhrase"
                 textFieldBackgroundColor="white" textFieldHintColor="white" @textChange="onTextChanged" @submit="onSubmit"
-                height="40" class="search" />
+                height="40" class="search" /> -->
 
-            <ScrollView height="95%">
-                <FlexboxLayout alignSelf="center" flexWrap="wrap">
-                    <FlexboxLayout flexDirection="column" v-for="(item, index) in animes" :key="index" height="auto">
-                        <card-view class="position" ripple="true" elevation="20" margin="4" radius=20 height="230"
-                            width="31%" @tap="watchEpisodes(item.mal_id)">
-                            <stack-layout orientation="horizontal" style="background-color: #1c6b48;" height="auto">
-                                <Image backgroundColor="blue"
-                                    :src="item.images.jpg.image_url"
-                                    stretch="fill" />
-                            </stack-layout>
-                        </card-view>
-                        <Label :text="item.title" width="31%" height="40" class="cardtitle" fontSize="18"></Label>
+            <ScrollView height="100%">
+                <FlexboxLayout flexDirection="column">
+                    <GridLayout class="carousel-layout-fix" style="width: 100%" rows="400">
+                        <Carousel v-if="animes_popularities.length > 0" id="carousel" @pageChanged="myChangeEvent"
+                            indicatorAlignment="bottom" ios:finite="true" ios:bounce="false" showIndicator="true"
+                            indicatorAnimation="SWAP" indicatorColor="#66ccff" indicatorColorUnselected="#cceeff"
+                            debug="true" row="0" col="0">
+                            <CarouselItem id="slide1" v-for="(item, index) in animes_popularities" :key="index"
+                                verticalAlignment="middle">
+                                <stack-layout orientation="horizontal" style="background-color: #1c6b48;" height="auto">
+                                    <Image :src="item.images.jpg.image_url" stretch="fill" />
+                                </stack-layout>
+                            </CarouselItem>
+                        </Carousel>
+                    </GridLayout>
+                    <FlexboxLayout alignSelf="center" flexWrap="wrap" marginTop="30" height="auto">
+                        <FlexboxLayout flexDirection="column" marginTop="15" v-for="(item, index) in animes" :key="index"
+                            height="auto">
+                            <card-view class="position" ripple="true" elevation="20" margin="4" radius=15 height="230"
+                                width="31%" @tap="watchEpisodes(item.mal_id)">
+                                <stack-layout orientation="horizontal" style="background-color: #1c6b48;" height="auto">
+                                    <Image :src="item.images.jpg.image_url" stretch="fill" />
+                                </stack-layout>
+                            </card-view>
+                            <Label :text="item.title" width="31%" height="40" class="cardtitle" fontSize="18"></Label>
+                        </FlexboxLayout>
                     </FlexboxLayout>
                 </FlexboxLayout>
             </ScrollView>
@@ -41,7 +56,6 @@
 import { mapState } from 'vuex';
 import { mapMutations } from 'vuex';
 import axios from 'axios';
-import Episodes from './Episodes.vue';
 import AnimeInfo from './AnimeInfo.vue';
 
 export default {
@@ -50,7 +64,8 @@ export default {
             activate: false,
             animes: [],
             searchPhrase: '',
-            animes_copy: []
+            animes_copy: [],
+            animes_popularities: []
         }
     },
     computed: {
@@ -63,8 +78,26 @@ export default {
     methods: {
         ...mapMutations(['save_anime']),
 
-        watchEpisodes(id){
-            this.$navigateTo(AnimeInfo, {props:{anime_id:id}})
+        watchEpisodes(id) {
+            this.$navigateTo(AnimeInfo, { props: { anime_id: id } })
+        },
+
+        modalSearch() {
+            alert({
+                title: "Warning!!",
+                message: "EN CONSTRCCION...",
+                okButtonText: "Aceptar"
+            }).then(() => {
+                console.log("Cerrar");
+            });
+        },
+
+        popularities(animes) {
+            for (let i = 0; i < animes.length; i++) {
+                if (animes[i].popularity > 1200) {
+                    this.animes_popularities.push(animes[i])
+                }
+            }
         },
 
         async getAnimes() {
@@ -72,6 +105,7 @@ export default {
             console.log(animes)
             this.animes = animes.data.data
             this.save_anime(this.animes)
+            this.popularities(this.animes)
         },
 
         onTextChanged() {
@@ -100,8 +134,8 @@ export default {
 
     created() {
         /* this.getEpisodes() */
-        if(this.animes.length == 0){
-            this.getAnimes() 
+        if (this.animes.length == 0) {
+            this.getAnimes()
         }
     },
 };

@@ -8,6 +8,7 @@
     "@nativescript/core": "~8.4.0",
     "@nativescript/theme": "~3.0.2",
     "@nstudio/nativescript-cardview": "^2.0.2",
+    "@nstudio/nativescript-carousel": "^8.0.3",
     "axios": "^0.27.2",
     "nativescript-fonticon": "^2.0.2",
     "nativescript-vue": "~2.9.2",
