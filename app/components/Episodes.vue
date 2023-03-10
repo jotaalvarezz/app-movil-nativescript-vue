@@ -15,6 +15,7 @@
                         </stack-layout>
                     </card-view> -->
                      <Label :text="item.url" height="70" fontSize="15" style="color: blue;" />
+                     <!-- <VideoPlayer ref="player" src=".././assets/videos/video.mp4" autoplay="true" height="300" @loadingComplete="videoCompleted" @finished="videoFinished" loop="false" /> -->
                 </StackLayout>
             </v-template>
         </ListView>

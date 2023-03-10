@@ -57,6 +57,7 @@ import { mapState } from 'vuex';
 import { mapMutations } from 'vuex';
 import axios from 'axios';
 import AnimeInfo from './AnimeInfo.vue';
+import searchView from './search/searchView.vue';
 
 export default {
     data() {
@@ -69,7 +70,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['msg', 'count', 'welcome']),
+        ...mapState(['msg', 'count', 'welcome', 'animes_store']),
         message() {
             return this.msg;
         }
@@ -83,13 +84,14 @@ export default {
         },
 
         modalSearch() {
-            alert({
+            /* alert({
                 title: "Warning!!",
                 message: "EN CONSTRCCION...",
                 okButtonText: "Aceptar"
             }).then(() => {
                 console.log("Cerrar");
-            });
+            }); */
+            this.$showModal(searchView, { fullscreen: true, props: { animes: this.animes }});
         },
 
         popularities(animes) {
@@ -101,11 +103,15 @@ export default {
         },
 
         async getAnimes() {
-            const animes = await axios.get('https://api.jikan.moe/v4/anime');
-            console.log(animes)
-            this.animes = animes.data.data
-            this.save_anime(this.animes)
-            this.popularities(this.animes)
+            try {
+                const animes = await axios.get('https://api.jikan.moe/v4/anime');
+                console.log(animes)
+                this.animes = animes.data.data
+                this.save_anime(this.animes)
+                this.popularities(this.animes)
+            } catch (error) {
+                console.log(error)
+            }
         },
 
         onTextChanged() {

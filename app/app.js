@@ -22,6 +22,11 @@ Vue.registerElement(
   () => require("@nstudio/nativescript-carousel").CarouselItem
 );
 
+Vue.registerElement(
+  "VideoPlayer",
+  () => require("nativescript-videoplayer").VideoPlayer
+);
+
 import { TNSFontIcon, fonticon } from "nativescript-fonticon";
 
 TNSFontIcon.debug = true;
