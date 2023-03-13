@@ -7,6 +7,10 @@ import Pager from "@nativescript-community/ui-pager/vue";
 
 Vue.use(Pager);
 
+import TabsPlugin from '@nativescript-community/ui-material-tabs/vue';
+
+Vue.use(TabsPlugin);
+
 Vue.registerElement(
   "CardView",
   () => require("@nstudio/nativescript-cardview").CardView
@@ -26,6 +30,12 @@ Vue.registerElement(
   "VideoPlayer",
   () => require("nativescript-videoplayer").VideoPlayer
 );
+
+Vue.registerElement(
+  "BarcodeScanner",
+  () => require("nativescript-barcodescanner").BarcodeScannerView
+);
+
 
 import { TNSFontIcon, fonticon } from "nativescript-fonticon";
 

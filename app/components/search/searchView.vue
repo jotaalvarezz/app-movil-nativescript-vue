@@ -43,7 +43,7 @@ export default {
     methods: {
         filterAnime() {
             if (this.textFieldValue.length > 0) {
-                this.animes_filter = this.animes.filter(anime => anime.title.includes(this.textFieldValue))
+                this.animes_filter = this.animes.filter(anime => !this.textFieldValue || anime.title.includes(this.textFieldValue))
             }
             /* for (let i = 0; i < field.length; i++) {
                 console.log(field[i].title)
