@@ -97,9 +97,9 @@ export default {
             this.$showModal(searchView, { fullscreen: true, props: { animes: this.animes } });
         },
 
-        readCode(){
+        /* readCode(){
             this.$showModal(scanCode, { fullscreen: true });
-        },
+        }, */
 
         popularities(animes) {
             for (let i = 0; i < animes.length; i++) {
