@@ -13,6 +13,7 @@
     "axios": "^0.27.2",
     "nativescript-barcodescanner": "^4.1.2",
     "nativescript-fonticon": "^2.0.2",
+    "nativescript-sqlite": "^2.8.6",
     "nativescript-videoplayer": "^5.0.1",
     "nativescript-vue": "~2.9.2",
     "nativescript-vue-fonticon": "^1.0.3",

@@ -10,7 +10,6 @@
             <!-- <SearchBar alignSelf="center" width="90%" hint="Search hint" :text="searchPhrase"
                 textFieldBackgroundColor="white" textFieldHintColor="white" @textChange="onTextChanged" @submit="onSubmit"
                 height="40" class="search" /> -->
-
             <ScrollView height="100%">
                 <FlexboxLayout flexDirection="column">
                     <GridLayout class="carousel-layout-fix" style="width: 100%" rows="400">
@@ -59,10 +58,14 @@ import { mapMutations } from 'vuex';
 import axios from 'axios';
 import AnimeInfo from './AnimeInfo.vue';
 import searchView from './search/searchView.vue';
+import FloatingButton from './floatingButton/FloatingButton.vue';
 /* import scanCode from './scan_code/ScanCode.vue'; */
 
 export default {
     name:'Animes',
+    components:{
+        FloatingButton
+    },
     data() {
         return {
             activate: false,

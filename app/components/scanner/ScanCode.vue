@@ -1,5 +1,6 @@
 <template>
     <FlexboxLayout flexDirection="column" backgroundColor="#3c495e">
+        <TextField v-model="pallet" paddingLeft="10" fontSize="30" />
         <!-- <Button backgroundColor="#43b883" @tap="openScan">Open Scan</Button> -->
         <Button row="2" backgroundColor="#43b883" text="back camera, with flip"
             @tap="doScanWithBackCameraWithFlip"></Button>
@@ -7,22 +8,35 @@
         <BarcodeScanner row="1" height="300" formats="QR_CODE, EAN_13, UPC_A" beepOnScan="true" reportDuplicates="true"
             preferFrontCamera="false" :pause="pause" @scanResult="onScanResult" v-if="activate">
         </BarcodeScanner>
+        <Button text="Crear tabla" @tap="createTable" />
     </FlexboxLayout>
 </template>
 
 <script>
 import { isIOS } from "@nativescript/core";
 import { BarcodeScanner } from "nativescript-barcodescanner";
+const { createTable } = require('../../sqlite/database.js');
 
 export default {
     data() {
         return {
+            pallet: '',
+            pallets: [],
             activate: false,
             isIOS
         }
     },
 
     methods: {
+        async createTable() {
+            try {
+                let table = await createTable();
+                console.log('Tabla creada correctamente ', table);
+            } catch (error) {
+                console.error('Error al crear la tabla:', error);
+            }
+        },
+
         openScan() {
             if (this.activate) {
                 this.activate = false
@@ -58,23 +72,11 @@ export default {
                 closeCallback: () => {
                     console.log("Scanner closed @ " + new Date().getTime());
                 }
-            }).then(
-                function (result) {
-                    console.log("--- scanned: " + result.text);
-                    // Note that this Promise is never invoked when a 'continuousScanCallback' function is provided
-                    setTimeout(function () {
-                        // if this alert doesn't show up please upgrade to {N} 2.4.0+
-                        alert({
-                            title: "Scan result",
-                            message: "Format: " + result.format + ",\nValue: " + result.text,
-                            okButtonText: "OK"
-                        });
-                    }, 500);
-                },
-                function (errorMessage) {
-                    console.log("No scan. " + errorMessage);
-                }
-            );
+            }).then((response) => {
+                console.log(response)
+                this.pallet = response.text
+                this.pallets.push(this.pallet)
+            });
         },
     },
 };
