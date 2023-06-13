@@ -13,6 +13,9 @@
             <TabViewItem fontSize="35" :title="'fa-barcode' | fonticon" class="fas">
                 <Scanner></Scanner>
             </TabViewItem>
+            <TabViewItem fontSize="35" :title="'fa-barcode' | fonticon" class="fas">
+                <Ships></Ships>
+            </TabViewItem>
         </TabView>
     </Page>
 </template>
@@ -23,12 +26,14 @@ import { isIOS } from "@nativescript/core";
 import { BarcodeScanner } from "nativescript-barcodescanner";
 import Scanner from './scanner/ScanCode.vue'
 import searchView from './search/searchView.vue';
+import Ships from './Ships/Ship.vue'
 import { mapState } from 'vuex';
 
 export default {
     components: {
         Animes,
-        Scanner
+        Scanner,
+        Ships
     },
 
     data() {
@@ -46,7 +51,7 @@ export default {
         modalSearch() {
             this.$showModal(searchView, { fullscreen: true, props: { animes: this.animes_store } });
         },
-        
+
     },
 
     created() {
