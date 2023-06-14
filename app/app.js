@@ -2,6 +2,10 @@ import Vue from "nativescript-vue";
 
 import Home from "./components/Home";
 
+import RadSideDrawer from "nativescript-ui-sidedrawer/vue";
+
+Vue.use(RadSideDrawer);
+
 import store from "./store/index";
 import Pager from "@nativescript-community/ui-pager/vue";
 

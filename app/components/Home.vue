@@ -1,22 +1,38 @@
 <template>
     <Page>
         <ActionBar backgroundColor="#222A37">
-            <Label text="Jikan Anime" class="cardtitle" fontSize="18" />
+            <NavigationButton />
+            <GridLayout columns="50, *">
+                <Label text="Jikan Anime" class="action-bar-title cardtitle" fontSize="18" colSpan="2"/>
+                <Label class="fas" text.decode="&#xf0c9;" @tap="openDrawer" />
+            </GridLayout>
             <ActionItem android.systemIcon="ic_menu_camera" ios.position="left" text="scan code" @tap="readCode" />
             <ActionItem android.systemIcon="ic_menu_search" ios.position="right" text="delete" @tap="modalSearch" />
         </ActionBar>
-        <TabView :selectedIndex="selectedIndex" @selectedIndexChange="indexChange" androidTabsPosition="buttom"
-            tabBackgroundColor="#222A37">
-            <TabViewItem style="background-color:#F40000;" fontSize="35" :title="'fa-dragon' | fonticon" class="fas">
-                <Animes></Animes>
-            </TabViewItem>
-            <TabViewItem fontSize="35" :title="'fa-barcode' | fonticon" class="fas">
-                <Scanner></Scanner>
-            </TabViewItem>
-            <TabViewItem fontSize="35" :title="'fa-barcode' | fonticon" class="fas">
-                <Ships></Ships>
-            </TabViewItem>
-        </TabView>
+        <RadSideDrawer ref="drawer" @drawerOpened="onDrawerOpened" @drawerClosed="onDrawerClosed">
+            <!-- Contenido principal -->
+            <StackLayout ~mainContent>
+                <!-- Agrega tus elementos de contenido principal aquí -->
+                <TabView :selectedIndex="selectedIndex" @selectedIndexChange="indexChange" androidTabsPosition="buttom"
+                    tabBackgroundColor="#222A37">
+                    <TabViewItem style="background-color:#F40000;" fontSize="35" :title="'fa-dragon' | fonticon"
+                        class="fas">
+                        <Animes></Animes>
+                    </TabViewItem>
+                    <TabViewItem fontSize="35" :title="'fa-barcode' | fonticon" class="fas">
+                        <Scanner></Scanner>
+                    </TabViewItem>
+                    <TabViewItem fontSize="35" :title="'fa-barcode' | fonticon" class="fas">
+                        <Ships></Ships>
+                    </TabViewItem>
+                </TabView>
+            </StackLayout>
+            <!-- Contenido del Drawer -->
+            <StackLayout ~drawerContent>
+                <!-- Agrega tus elementos de contenido del Drawer aquí -->
+                <ContentDrawer></ContentDrawer>
+            </StackLayout>
+        </RadSideDrawer>
     </Page>
 </template>
 
@@ -28,12 +44,14 @@ import Scanner from './scanner/ScanCode.vue'
 import searchView from './search/searchView.vue';
 import Ships from './Ships/Ship.vue'
 import { mapState } from 'vuex';
+import ContentDrawer from './contentDrawer/ContentDrawer.vue';
 
 export default {
     components: {
         Animes,
         Scanner,
-        Ships
+        Ships,
+        ContentDrawer
     },
 
     data() {
@@ -51,6 +69,11 @@ export default {
         modalSearch() {
             this.$showModal(searchView, { fullscreen: true, props: { animes: this.animes_store } });
         },
+
+        openDrawer(){
+            const drawer = this.$refs.drawer.nativeView
+            drawer.showDrawer()
+        }
 
     },
 
